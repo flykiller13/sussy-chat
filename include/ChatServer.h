@@ -1,7 +1,6 @@
 #ifndef RON_SERVER_CHATSERVER_H
-#include <ostream>
-#include <ostream>
 #define RON_SERVER_CHATSERVER_H
+#include <ostream>
 #include <iostream>
 #include <map>
 #include <vector>

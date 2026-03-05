@@ -5,12 +5,18 @@ project(sussy-chat VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Add 'sussy_socket' library target available to the project.
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/third_party/sussy-socket/CMakeLists.txt")
-    add_subdirectory(third_party/sussy-socket)
-else()
-    message(FATAL_ERROR "sussy-socket submodule not found! Did you run 'git submodule update --init'?")
-endif()
+# Include FetchContent module
+include(FetchContent)
+
+# Fetch sussy-socket library from GitHub
+FetchContent_Declare(
+        sussy_socket
+        GIT_REPOSITORY https://github.com/flykiller13/sussy-socket.git
+        GIT_TAG main
+)
+
+# Make the sussy-socket library available
+FetchContent_MakeAvailable(sussy_socket)
 
 # Server executable
 add_executable(chat_server

@@ -1,5 +1,0 @@
-[submodule "third_party/sussy-socket"]
-	path = third_party/sussy-socket
-	url = https://github.com/flykiller13/sussy-socket.git
-	branch = main
-	ignore = dirty
