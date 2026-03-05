@@ -8,7 +8,7 @@
 using namespace std;
 
 ChatClient::ChatClient(const string &ip, const string &port,
-                       const string &client_name) : socket_() {
+                       const string &client_name) {
   // Retry connection loop
   while (!socket_) {
     try {
@@ -29,7 +29,7 @@ ChatClient::ChatClient(const string &ip, const string &port,
   pfds_.push_back(client_pfd);
 
   // Add standard input to the poll list
-  pollfd stdin_pfd;
+  pollfd stdin_pfd{};
   stdin_pfd.fd = STDIN_FILENO;
   stdin_pfd.events = POLLIN;
   stdin_pfd.revents = 0;
@@ -50,7 +50,7 @@ void ChatClient::run() {
     }
 
     // Check if the client is ready to read
-    if (pfds_[0].revents & (POLLIN | POLLHUP)) {
+    if ((pfds_[0].revents & (POLLIN | POLLHUP)) != 0) {
       // Handle message from server
       vector<uint8_t> received_data = socket_->receive_data();
       string received_msg = string(received_data.begin(), received_data.end());
@@ -60,7 +60,7 @@ void ChatClient::run() {
     }
 
     // Check if STDIN received events
-    if (pfds_[1].revents & (POLLIN)) {
+    if ((pfds_[1].revents & (POLLIN)) != 0) {
       string msg;
       cout << "You: ";
       getline(cin, msg);

@@ -18,8 +18,8 @@ private:
   std::unique_ptr<Socket> socket_;
   std::string client_name_;
   std::vector<pollfd> pfds_;
-  int retry_delay_seconds_ = 1;
-  int retry_count_ = 5;
+  const int retry_delay_seconds_ = 1;
+  const int retry_count_ = 5;
 
 };
 

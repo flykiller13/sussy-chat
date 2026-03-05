@@ -11,17 +11,15 @@ struct pollfd;
 
 class ChatServer {
 public:
-  ChatServer(std::string port) : listen_(port) {
-    std::cout << "server: listening on port " << port << std::endl;
-  }
+  explicit ChatServer(const std::string &port);
 
   void run();
 
 private:
   void handle_new_connection(std::vector<pollfd> &pfds);
   void handle_client_messages(std::vector<pollfd> &pfds, pollfd client_pfd);
-  void add_to_pfds(std::vector<pollfd> &pfds, int socket_fd);
-  void remove_from_pfds(std::vector<pollfd> &pfds, int i);
+  static void add_to_pfds(std::vector<pollfd> &pfds, int socket_fd);
+  static void remove_from_pfds(std::vector<pollfd> &pfds, int i);
   void broadcast_message(const std::string &message, int sender_fd);
 
   ServerSocket listen_;

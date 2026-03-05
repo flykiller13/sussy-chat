@@ -4,10 +4,14 @@
 
 using namespace std;
 
+ChatServer::ChatServer(const std::string &port) : listen_(port) {
+  std::cout << "server: listening on port " << port << std::endl;
+}
+
 void ChatServer::run() {
   vector<pollfd> pfds;
   // Add listener to the poll list
-  pollfd listen_fd;
+  pollfd listen_fd{};
   listen_fd.fd = listen_.get_listen_socket_fd();
   listen_fd.events = POLLIN;
   listen_fd.revents = 0;
@@ -22,7 +26,7 @@ void ChatServer::run() {
     // Run through connections looking for data to read
     for (int i = 0; i < pfds.size(); i++) {
       // Check if someone's ready to read
-      if (pfds[i].revents & (POLLIN | POLLHUP)) {
+      if ((pfds[i].revents & (POLLIN | POLLHUP)) != 0) {
         // We got one!!
         if (pfds[i].fd == listen_.get_listen_socket_fd()) {
           // Handle new connection and add it to the list of clients
@@ -84,7 +88,7 @@ void ChatServer::handle_client_messages(vector<pollfd> &pfds,
  * Add a new file descriptor to the set.
  */
 void ChatServer::add_to_pfds(vector<pollfd> &pfds, int socket_fd) {
-  pollfd new_pfd;
+  pollfd new_pfd{};
 
   new_pfd.fd = socket_fd;
   new_pfd.events = POLLIN; // Check ready-to-read
