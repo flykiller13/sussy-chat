@@ -1,5 +1,6 @@
-﻿#ifndef SUSSY_SOCKET_CHATCLIENT_H
+#ifndef SUSSY_SOCKET_CHATCLIENT_H
 #define SUSSY_SOCKET_CHATCLIENT_H
+#include <memory>
 #include <string>
 #include <vector>
 #include <sys/poll.h>
@@ -14,9 +15,9 @@ public:
     void run();
 
 private:
-    Socket* socket_;
+    std::unique_ptr<Socket> socket_;
     std::string client_name_;
-    std::vector<pollfd> pfds;
+    std::vector<pollfd> pfds_;
     int retry_delay_seconds_ = 1;
     int retry_count_ = 5;
 

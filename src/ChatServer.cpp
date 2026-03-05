@@ -1,4 +1,4 @@
-﻿#include "ChatServer.h"
+#include "ChatServer.h"
 
 #include <sys/poll.h>
 
@@ -58,8 +58,8 @@ void ChatServer::handle_client_messages(vector<pollfd> &pfds, pollfd client_pfd)
         {
             if (client.get_socket_fd() == client_pfd.fd)
             {
-                uint32_t msg_len = client.receive_int(); // receive message length
-                string msg = client.receive_data(msg_len);
+                vector<uint8_t> msg_data = client.receive_data();
+                string msg = string(msg_data.begin(), msg_data.end());
 
                 auto client_name = client_names_.find(client.get_socket_fd());
                 if (client_name == client_names_.end()) // Is the client's name registered?
@@ -85,7 +85,8 @@ void ChatServer::handle_client_messages(vector<pollfd> &pfds, pollfd client_pfd)
                 // Client connection is closed on removal
                 client_names_.erase(clients_[i].get_socket_fd());
                 clients_.erase(clients_.begin() + i);
-                remove_from_pfds(pfds, i+1); // +1 for the listener
+                remove_from_pfds(pfds, i + 1); // +1 for the listener
+                break;
             }
         }
     }
@@ -113,14 +114,14 @@ void ChatServer::remove_from_pfds(vector<pollfd> &pfds, int i)
     pfds.erase(pfds.begin() + i);
 }
 
-void ChatServer::broadcast_message(string message, int sender_fd)
+void ChatServer::broadcast_message(const string& message, int sender_fd)
 {
     for (Socket &client : clients_)
     {
         if (client.get_socket_fd() != sender_fd) // Dont send to sender
         {
-            client.send_int(message.length()); // Send message length
-            client.send_data(message); // send message itself
+            vector<uint8_t> message_data(message.begin(), message.end());
+            client.send_data(message_data); // send message
         }
     }
 }
