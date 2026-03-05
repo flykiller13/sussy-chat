@@ -8,17 +8,15 @@
 
 using namespace std;
 
-string input_client_name()
-{
-    string name;
-    cout << "Enter username: ";
-    getline(cin, name);
-    cout << format("Welcome, {}!", name) << endl;
-    return name;
+string input_client_name() {
+  string name;
+  cout << "Enter username: ";
+  getline(cin, name);
+  cout << format("Welcome, {}!", name) << endl;
+  return name;
 }
 
-int main()
-{
-    ChatClient client(IP, PORT, input_client_name());
-    client.run();
+int main() {
+  ChatClient client(IP, PORT, input_client_name());
+  client.run();
 }

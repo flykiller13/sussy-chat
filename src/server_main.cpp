@@ -4,10 +4,9 @@
 
 using namespace std;
 
-int main()
-{
-	ChatServer chat(PORT);
-	chat.run();
+int main() {
+  ChatServer chat(PORT);
+  chat.run();
 
-	return 0;
+  return 0;
 }

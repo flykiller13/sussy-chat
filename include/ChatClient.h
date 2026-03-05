@@ -8,18 +8,18 @@
 #include "sussy_socket/Socket.h"
 
 
-class ChatClient
-{
+class ChatClient {
 public:
-    ChatClient(const std::string& ip, const std::string& port, const std::string& client_name);
-    void run();
+  ChatClient(const std::string &ip, const std::string &port,
+             const std::string &client_name);
+  void run();
 
 private:
-    std::unique_ptr<Socket> socket_;
-    std::string client_name_;
-    std::vector<pollfd> pfds_;
-    int retry_delay_seconds_ = 1;
-    int retry_count_ = 5;
+  std::unique_ptr<Socket> socket_;
+  std::string client_name_;
+  std::vector<pollfd> pfds_;
+  int retry_delay_seconds_ = 1;
+  int retry_count_ = 5;
 
 };
 
