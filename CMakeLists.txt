@@ -5,17 +5,13 @@ project(sussy-chat VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Include FetchContent module
+# Fetch sussy-socket library
 include(FetchContent)
-
-# Fetch sussy-socket library from GitHub
 FetchContent_Declare(
         sussy_socket
         GIT_REPOSITORY https://github.com/flykiller13/sussy-socket.git
         GIT_TAG main
 )
-
-# Make the sussy-socket library available
 FetchContent_MakeAvailable(sussy_socket)
 
 # Server executable
@@ -35,6 +31,5 @@ target_link_libraries(chat_server PRIVATE sussy_socket)
 target_link_libraries(chat_client PRIVATE sussy_socket)
 
 # Set include directories
-# This allows us to use #include "ChatServer.h" instead of relative paths.
 target_include_directories(chat_server PRIVATE include)
 target_include_directories(chat_client PRIVATE include)
